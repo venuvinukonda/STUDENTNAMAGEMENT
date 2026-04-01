@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Management System{% endblock %}</title>
+    
+    <!-- Tailwind CSS from CDN - Development/Quick Start -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="{% url 'dashboard' %}" class="text-2xl font-bold">Student Management</a>
+                </div>
+                <div class="hidden md:flex space-x-1">
+                    <a href="{% url 'dashboard' %}" class="px-3 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'dashboard' %}bg-indigo-700{% else %}hover:bg-indigo-700{% endif %}">Dashboard</a>
+                    <a href="{% url 'student-list' %}" class="px-3 py-2 rounded-md text-sm font-medium {% if 'student' in request.resolver_match.url_name %}bg-indigo-700{% else %}hover:bg-indigo-700{% endif %}">Students</a>
+                    <a href="{% url 'course-list' %}" class="px-3 py-2 rounded-md text-sm font-medium {% if 'course' in request.resolver_match.url_name %}bg-indigo-700{% else %}hover:bg-indigo-700{% endif %}">Courses</a>
+                    <a href="{% url 'enrollment-list' %}" class="px-3 py-2 rounded-md text-sm font-medium {% if 'enrollment' in request.resolver_match.url_name %}bg-indigo-700{% else %}hover:bg-indigo-700{% endif %}">Enrollments</a>
+                    <a href="{% url 'grade-list' %}" class="px-3 py-2 rounded-md text-sm font-medium {% if 'grade' in request.resolver_match.url_name %}bg-indigo-700{% else %}hover:bg-indigo-700{% endif %}">Grades</a>
+                    <a href="{% url 'reports' %}" class="px-3 py-2 rounded-md text-sm font-medium {% if 'report' in request.resolver_match.url_name %}bg-indigo-700{% else %}hover:bg-indigo-700{% endif %}">Reports</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        {% for message in messages %}
+        <div class="p-4 mb-4 text-sm rounded-lg {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <p>&copy; 2024 Student Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {% load static %}
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

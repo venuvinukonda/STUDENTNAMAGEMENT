@@ -1,0 +1,18 @@
+{
+  "name": "student-management",
+  "version": "1.0.0",
+  "description": "Student Management System with Tailwind CSS",
+  "scripts": {
+    "build": "tailwindcss -i static/css/tailwind.css -o static/css/output.css",
+    "dev": "tailwindcss -i static/css/tailwind.css -o static/css/output.css --watch",
+    "build:prod": "NODE_ENV=production tailwindcss -i static/css/tailwind.css -o static/css/output.css --minify"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.31",
+    "autoprefixer": "^10.4.16",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "@tailwindcss/aspect-ratio": "^0.4.2"
+  }
+}

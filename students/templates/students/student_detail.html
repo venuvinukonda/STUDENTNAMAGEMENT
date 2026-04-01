@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ student.full_name }} - Student Management System{% endblock %}
+
+{% block content %}
+<div class="mb-8 flex justify-between items-center">
+    <div>
+        <h1 class="text-4xl font-bold text-gray-900">{{ student.full_name }}</h1>
+        <p class="text-gray-600 mt-2">Roll Number: {{ student.roll_number }}</p>
+    </div>
+    <div class="flex space-x-3">
+        <a href="{% url 'student-edit' student.pk %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition duration-200">
+            Edit
+        </a>
+        <a href="{% url 'student-list' %}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded transition duration-200">
+            Back
+        </a>
+    </div>
+</div>
+
+<!-- Student Information -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <!-- Personal Information -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Personal Information</h2>
+        <dl class="space-y-4">
+            <div class="flex justify-between">
+                <dt class="text-gray-600 font-semibold">Email:</dt>
+                <dd class="text-gray-900">{{ student.email }}</dd>
+            </div>
+            <div class="flex justify-between">
+                <dt class="text-gray-600 font-semibold">Phone:</dt>
+                <dd class="text-gray-900">{{ student.phone|default:"N/A" }}</dd>
+            </div>
+            <div class="flex justify-between">
+                <dt class="text-gray-600 font-semibold">Date of Birth:</dt>
+                <dd class="text-gray-900">{{ student.date_of_birth|date:"M d, Y"|default:"N/A" }}</dd>
+            </div>
+            <div class="flex justify-between">
+                <dt class="text-gray-600 font-semibold">Gender:</dt>
+                <dd class="text-gray-900">{{ student.get_gender_display|default:"N/A" }}</dd>
+            </div>
+        </dl>
+    </div>
+
+    <!-- Academic Information -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Academic Information</h2>
+        <dl class="space-y-4">
+            <div class="flex justify-between">
+                <dt class="text-gray-600 font-semibold">Program:</dt>
+                <dd class="text-gray-900">{{ student.program|default:"N/A" }}</dd>
+            </div>
+            <div class="flex justify-between">
+                <dt class="text-gray-600 font-semibold">Semester:</dt>
+                <dd class="text-gray-900">{{ student.get_semester_display }}</dd>
+            </div>
+            <div class="flex justify-between">
+                <dt class="text-gray-600 font-semibold">Status:</dt>
+                <dd>
+                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
+                    {% if student.status == 'active' %}bg-green-100 text-green-800
+                    {% elif student.status == 'inactive' %}bg-gray-100 text-gray-800
+                    {% elif student.status == 'graduated' %}bg-blue-100 text-blue-800
+                    {% else %}bg-red-100 text-red-800{% endif %}">
+                        {{ student.get_status_display }}
+                    </span>
+                </dd>
+            </div>
+            <div class="flex justify-between">
+                <dt class="text-gray-600 font-semibold">GPA:</dt>
+                <dd class="text-gray-900 font-bold">{{ student.gpa }}</dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<!-- Address Information -->
+<div class="bg-white rounded-lg shadow p-6 mb-8">
+    <h2 class="text-xl font-bold text-gray-900 mb-4">Address</h2>
+    <p class="text-gray-900">{{ student.address|default:"N/A" }}</p>
+    <p class="text-gray-900">{{ student.city|default:"" }}{% if student.state %}, {{ student.state }}{% endif %}</p>
+    <p class="text-gray-900">{{ student.country|default:"" }} {% if student.postal_code %}{{ student.postal_code }}{% endif %}</p>
+</div>
+
+<!-- Guardian Information -->
+<div class="bg-white rounded-lg shadow p-6 mb-8">
+    <h2 class="text-xl font-bold text-gray-900 mb-4">Guardian Information</h2>
+    <dl class="space-y-4">
+        <div class="flex justify-between">
+            <dt class="text-gray-600 font-semibold">Guardian Name:</dt>
+            <dd class="text-gray-900">{{ student.guardian_name|default:"N/A" }}</dd>
+        </div>
+        <div class="flex justify-between">
+            <dt class="text-gray-600 font-semibold">Guardian Phone:</dt>
+            <dd class="text-gray-900">{{ student.guardian_phone|default:"N/A" }}</dd>
+        </div>
+    </dl>
+</div>
+
+<!-- Enrollments -->
+{% if enrollments %}
+<div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold text-gray-900 mb-4">Current Enrollments</h2>
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2 text-left">Course</th>
+                    <th class="px-4 py-2 text-left">Semester</th>
+                    <th class="px-4 py-2 text-left">Status</th>
+                    <th class="px-4 py-2 text-center">Grade</th>
+                    <th class="px-4 py-2 text-center">Score</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for enrollment in enrollments %}
+                <tr>
+                    <td class="px-4 py-2">{{ enrollment.course.code }}</td>
+                    <td class="px-4 py-2">{{ enrollment.semester }}</td>
+                    <td class="px-4 py-2">
+                        <span class="px-2 py-1 text-xs rounded-full {% if enrollment.status == 'completed' %}bg-green-100 text-green-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                            {{ enrollment.get_status_display }}
+                        </span>
+                    </td>
+                    <td class="px-4 py-2 text-center font-bold">{{ enrollment.grade }}</td>
+                    <td class="px-4 py-2 text-center">{{ enrollment.total_score|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Courses - Student Management System{% endblock %}
+
+{% block content %}
+<div class="mb-8 flex justify-between items-center">
+    <div>
+        <h1 class="text-4xl font-bold text-gray-900">Courses</h1>
+        <p class="text-gray-600 mt-2">Manage course information</p>
+    </div>
+    <a href="{% url 'course-create' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded transition duration-200">
+        + Add Course
+    </a>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    {% if courses %}
+    <table class="w-full">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Code</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Credit Hours</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            {% for course in courses %}
+            <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ course.code }}</td>
+                <td class="px-6 py-4 text-sm text-gray-700">{{ course.name }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ course.credit_hours }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <a href="{% url 'course-edit' course.pk %}" class="text-blue-600 hover:text-blue-900 mr-4">Edit</a>
+                    <a href="{% url 'course-delete' course.pk %}" class="text-red-600 hover:text-red-900">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="p-6 text-center text-gray-600">
+        <p>No courses found.</p>
+        <a href="{% url 'course-create' %}" class="text-indigo-600 hover:text-indigo-900 font-semibold mt-2 inline-block">Add a new course</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

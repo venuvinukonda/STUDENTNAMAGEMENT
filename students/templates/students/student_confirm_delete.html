@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Student - Student Management System{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    <div class="bg-white rounded-lg shadow p-8">
+        <div class="text-center mb-6">
+            <svg class="w-16 h-16 mx-auto text-red-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4v2m0 4v2m6-15a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h2 class="text-2xl font-bold text-gray-900">Delete Student</h2>
+        </div>
+
+        <p class="text-gray-600 text-center mb-6">
+            Are you sure you want to delete <strong>{{ student.full_name }}</strong> ({{ student.roll_number }})? This action cannot be undone.
+        </p>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div class="flex space-x-4">
+                <a href="{% url 'student-list' %}" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-200 text-center">
+                    Cancel
+                </a>
+                <button type="submit" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200">
+                    Delete
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

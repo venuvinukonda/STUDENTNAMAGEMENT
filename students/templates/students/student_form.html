@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Edit Student{% else %}Add Student{% endif %} - Student Management System{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-4xl font-bold text-gray-900">{% if form.instance.pk %}Edit Student{% else %}Add New Student{% endif %}</h1>
+    <p class="text-gray-600 mt-2">Fill in the form below to {% if form.instance.pk %}update{% else %}create{% endif %} a student record</p>
+</div>
+
+<div class="bg-white rounded-lg shadow p-8 max-w-4xl">
+    <form method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="p-4 bg-red-100 text-red-800 rounded-lg">
+            {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Personal Information Section -->
+        <div class="border-b pb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Personal Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="{{ form.roll_number.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Roll Number *</label>
+                    {{ form.roll_number }}
+                    {% if form.roll_number.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.roll_number.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.first_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.last_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.phone.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.phone.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.date_of_birth.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                    {{ form.date_of_birth }}
+                    {% if form.date_of_birth.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.date_of_birth.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.gender.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                    {{ form.gender }}
+                    {% if form.gender.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.gender.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Academic Information Section -->
+        <div class="border-b pb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Academic Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="{{ form.program.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                    {{ form.program }}
+                    {% if form.program.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.program.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.admission_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Admission Date *</label>
+                    {{ form.admission_date }}
+                    {% if form.admission_date.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.admission_date.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.semester.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Semester *</label>
+                    {{ form.semester }}
+                    {% if form.semester.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.semester.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Status *</label>
+                    {{ form.status }}
+                    {% if form.status.errors %}
+                    <p class="text-red-600 text-sm mt-1">{{ form.status.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Section -->
+        <div class="border-b pb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Address</h2>
+            <div class="grid grid-cols-1 gap-6">
+                <div>
+                    <label for="{{ form.address.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                    {{ form.address }}
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div>
+                        <label for="{{ form.city.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                        {{ form.city }}
+                    </div>
+                    <div>
+                        <label for="{{ form.state.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+                        {{ form.state }}
+                    </div>
+                    <div>
+                        <label for="{{ form.country.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                        {{ form.country }}
+                    </div>
+                    <div>
+                        <label for="{{ form.postal_code.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Postal Code</label>
+                        {{ form.postal_code }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guardian Information Section -->
+        <div class="pb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Guardian Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="{{ form.guardian_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Guardian Name</label>
+                    {{ form.guardian_name }}
+                </div>
+                <div>
+                    <label for="{{ form.guardian_phone.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Guardian Phone</label>
+                    {{ form.guardian_phone }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-between">
+            <a href="{% url 'student-list' %}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded transition duration-200">
+                Cancel
+            </a>
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded transition duration-200">
+                {% if form.instance.pk %}Update Student{% else %}Add Student{% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .form-input, .form-select, .form-textarea {
+        @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none;
+    }
+</style>
+{% endblock %}
